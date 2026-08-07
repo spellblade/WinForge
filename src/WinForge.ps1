@@ -5,8 +5,6 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-#Launch the Application
-Write-Host "Initializing WinForge"
 # Find project root
 # $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ScriptRoot = $PSScriptRoot
@@ -23,7 +21,3 @@ Initialize-WFConfiguration
 
 # Show UI
 Show-WFBanner
-
-# Temporary
-Write-Host ""
-Write-Host "WinForge initialized successfully."

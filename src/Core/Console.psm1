@@ -29,6 +29,7 @@ function Show-WFBanner {
     Write-Host ' Windows Maintenance & Diagnostics Toolkit' -ForegroundColor Cyan
     Write-Host "             v$version"                     -ForegroundColor Cyan
     Write-Host '=========================================' -ForegroundColor Cyan
+    Write-Host "WinForge initialized successfully." -ForegroundColor Cyan
 }
 
 Export-ModuleMember -Function 'Show-WFBanner'
