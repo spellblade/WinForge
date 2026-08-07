@@ -18,11 +18,11 @@ Import-Module "$ScriptRoot\Core\Console.psm1" -Force
 # TODO(feature/utils): Import-Module "$ScriptRoot\Core\Utils.psm1" -Force
 
 # Initialize application
- Initialize-WFConfiguration
+Initialize-WFConfiguration
 # TODO(feature/logging): Initialize-WFLogging 
 
 # Show UI
- Show-WFBanner
+Show-WFBanner
 
 # Temporary
 Write-Host ""

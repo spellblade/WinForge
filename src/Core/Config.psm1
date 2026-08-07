@@ -1,4 +1,4 @@
-# ==========================================
+﻿# ==========================================
 # WinForge Configuration Module
 # ==========================================
 
@@ -24,7 +24,7 @@ function Initialize-WFConfiguration {
     # Read version from VERSION file
     $VersionFile = Join-Path $ProjectRoot "VERSION"
     if (-not (Test-Path $VersionFile)) {
-    throw "VERSION file not found: $VersionFile"
+        throw "VERSION file not found: $VersionFile"
     }
     $Version = (Get-Content $VersionFile -Raw).Trim()
     $ApplicationName = "WinForge"
