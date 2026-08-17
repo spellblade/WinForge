@@ -2,7 +2,7 @@
 logs/
 reports/
 .kilo
-
+projectnotes/
 # Keep .gitkeep files so empty directories remain in git
 !logs/.gitkeep
 !reports/.gitkeep

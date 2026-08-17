@@ -52,9 +52,7 @@ function Initialize-WFConfiguration {
         }
     }
 
-    $script:WF = $WF
-
-    return $WF
+    return $script:WF
 }
 
 <#
