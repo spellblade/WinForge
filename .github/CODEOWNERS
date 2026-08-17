@@ -1,0 +1,12 @@
+# Default owner for all files
+*   @spellblade
+
+# Core modules require review from maintainer
+src/Core/**     @spellblade
+
+# Repair modules are critical — always require maintainer review
+src/Repair/**   @spellblade
+
+# Scripts and CI require maintainer review
+.github/**      @spellblade
+scripts/**      @spellblade

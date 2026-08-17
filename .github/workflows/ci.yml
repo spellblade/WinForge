@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main, develop, staging]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/ci.yml'
+      - 'PSScriptAnalyzerSettings.psd1'
+  pull_request:
+    branches: [master, main, develop, staging]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/ci.yml'
+      - 'PSScriptAnalyzerSettings.psd1'
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-smoke:
+    name: PSScriptAnalyzer + Smoke Test
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -ErrorAction Stop
+
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $settings = if (Test-Path ./PSScriptAnalyzerSettings.psd1) {
+            './PSScriptAnalyzerSettings.psd1'
+          } else {
+            $null
+          }
+
+          $params = @{
+            Path    = './src'
+            Recurse = $true
+            Severity = @('Error', 'Warning')
+          }
+          if ($settings) { $params.Settings = $settings }
+
+          $results = Invoke-ScriptAnalyzer @params
+
+          if ($results) {
+            $results | Format-Table -AutoSize
+            throw "PSScriptAnalyzer found $($results.Count) issue(s)"
+          }
+
+          Write-Host "PSScriptAnalyzer: clean" -ForegroundColor Green
+
+      - name: Launcher smoke test
+        shell: pwsh
+        run: |
+          # Run the launcher (must exit cleanly)
+          & ./src/WinForge.ps1
+          if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
+            throw "Launcher smoke test failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Verify expected directories
+        shell: pwsh
+        run: |
+          # After the launcher runs, confirm the skeleton created the required folders
+          $required = @('config', 'logs', 'reports')
+          foreach ($dir in $required) {
+            if (-not (Test-Path $dir)) {
+              throw "Expected directory '$dir' was not created by the launcher"
+            }
+          }
+          Write-Host "Directory creation: verified" -ForegroundColor Green
