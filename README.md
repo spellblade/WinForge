@@ -95,7 +95,10 @@ feature/*
 develop
       │
       ▼
-main
+staging
+      │
+      ▼
+master
 ```
 
 All new work is developed in feature branches, merged into `develop`, and finally released through `main`.
